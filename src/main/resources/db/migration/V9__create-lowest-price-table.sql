@@ -1,0 +1,11 @@
+CREATE TABLE GH_LOWEST_PRICE (
+    id_lowest_price SERIAL PRIMARY KEY,
+    id_game INTEGER NOT NULL,
+    id_store INTEGER NOT NULL,
+    nu_price DECIMAL(10, 2) NOT NULL,
+    dt_price DATE NOT NULL,
+    dt_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    dt_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_game FOREIGN KEY (id_game) REFERENCES GH_GAME(id_game),
+    CONSTRAINT fk_store FOREIGN KEY (id_store) REFERENCES GH_STORE(id_store)
+);
