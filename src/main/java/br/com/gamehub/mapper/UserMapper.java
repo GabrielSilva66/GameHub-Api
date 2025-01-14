@@ -2,8 +2,10 @@ package br.com.gamehub.mapper;
 
 import br.com.gamehub.dto.request.UserRequestDTO;
 import br.com.gamehub.dto.response.UserResponseDTO;
+import br.com.gamehub.enums.UserType;
 import br.com.gamehub.model.Profile;
 import br.com.gamehub.model.User;
+import br.com.gamehub.util.Converter;
 
 
 public class UserMapper {
@@ -17,11 +19,13 @@ public class UserMapper {
         User user = new User();
         user.setEmail(dto.email());
         user.setPasswordHash(dto.passwordHash());
-        user.setUserType(dto.userType());
 
-        if(profile != null){
-            user.setProfile(profile);
+        if(dto.userType() != null){
+            user.setUserType(Converter.stringToEnum(UserType.class, dto.userType()));
         }
+        user.setUserType(Converter.stringToEnum(UserType.class, UserType.USER.toString()));
+
+        user.setProfile(profile);
 
         return user;
     }

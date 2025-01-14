@@ -29,7 +29,7 @@ public class User {
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_type", nullable = false, columnDefinition = "varchar(255) default 'COMMON'")
+    @Column(name = "user_type", columnDefinition = "varchar(255) default 'COMMON'")
     private UserType userType;
 
     @Column(name = "dt_created_at", nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")

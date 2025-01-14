@@ -17,9 +17,10 @@ public class ProfileMapper {
         }
 
         Profile profile = new Profile();
+        profile.setGender(Converter.stringToEnum(Gender.class, dto.gender()));
         profile.setName(dto.name());
         profile.setBirthDate(dto.birthDate());
-        profile.setGender(Converter.stringToEnum(Gender.class, dto.gender()));
+
         profile.setCreatedAt(LocalDateTime.now());
         profile.setUpdatedAt(LocalDateTime.now());
 
