@@ -1,8 +1,13 @@
 package br.com.gamehub.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.gamehub.dto.request.GameRequestDTO;
@@ -26,9 +31,9 @@ public class GameService {
    }
 
    public GameResponseDTO createGame(GameRequestDTO gameRequestDTO) {
-      Long idDeveloper = gameRequestDTO.idDeveloper();
-      Developer developer = developerRepository.findById(idDeveloper)
-            .orElseThrow(() -> new EntityNotFoundException("Developer with id " + idDeveloper + " not found"));
+      Long developerId = gameRequestDTO.developerId();
+      Developer developer = developerRepository.findById(developerId)
+            .orElseThrow(() -> new EntityNotFoundException("Developer with id " + developerId + " not found"));
 
       Game game = GameMapper.toEntity(gameRequestDTO, developer);
       game = gameRepository.save(game);
@@ -50,9 +55,9 @@ public class GameService {
    }
 
    public GameResponseDTO updateGame(Long id, GameRequestDTO gameRequestDTO) {
-      Long idDeveloper = gameRequestDTO.idDeveloper();
-      Developer developer = developerRepository.findById(idDeveloper)
-            .orElseThrow(() -> new EntityNotFoundException("Developer with id " + idDeveloper + " not found"));
+      Long developerId = gameRequestDTO.developerId();
+      Developer developer = developerRepository.findById(developerId)
+            .orElseThrow(() -> new EntityNotFoundException("Developer with id " + developerId + " not found"));
       Game game = gameRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Game with id " + id + " not found"));
 
@@ -70,5 +75,20 @@ public class GameService {
             .orElseThrow(() -> new EntityNotFoundException("Game with id " + id + " not found"));
 
       gameRepository.delete(game);
+   }
+
+   public Page<GameResponseDTO> searchGames(
+         String name,
+         Optional<Long> developerId,
+         Integer page,
+         Integer size,
+         String orderBy,
+         String direction) {
+      Sort sort = Sort.by(Sort.Direction.fromString(direction), orderBy);
+      Pageable pageable = PageRequest.of(page, size, sort);
+
+      Page<Game> games = gameRepository.search(name, developerId.orElse(null), pageable);
+
+      return games.map(game -> GameMapper.toResponse(game, game.getDeveloper()));
    }
 }

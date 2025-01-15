@@ -3,6 +3,10 @@ package br.com.gamehub.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.gamehub.dto.request.DeveloperRequestDTO;
@@ -58,5 +62,18 @@ public class DeveloperService {
             .orElseThrow(() -> new EntityNotFoundException("Developer with id " + id + " not found"));
 
       developerRepository.delete(developer);
+   }
+
+   public Page<DeveloperResponseDTO> searchDevelopers(
+         String name,
+         Integer page,
+         Integer size,
+         String orderBy,
+         String direction) {
+      Sort sort = Sort.by(Sort.Direction.fromString(direction), orderBy);
+      Pageable pageable = PageRequest.of(page, size, sort);
+      Page<Developer> developers = developerRepository.search(name, pageable);
+
+      return developers.map(DeveloperMapper::toResponse);
    }
 }

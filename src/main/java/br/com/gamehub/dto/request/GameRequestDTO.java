@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record GameRequestDTO(
-      @NotNull(message = "Developer ID is required") Long idDeveloper,
+      @NotNull(message = "Developer ID is required") Long developerId,
       @NotBlank(message = "Game name is required") String name,
       @MaxDate LocalDate releaseDate) {
 }
