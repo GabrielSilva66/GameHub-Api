@@ -78,8 +78,39 @@ public class GameController {
          @RequestParam(defaultValue = "10") Integer size,
          @RequestParam(defaultValue = "id_game") String orderBy,
          @RequestParam(defaultValue = "asc") String direction) {
-      Page<GameResponseDTO> games = gameService.searchGames(name, developerId, page, size, orderBy, direction);
+      Page<GameResponseDTO> gameResponseDTOs = gameService.searchGames(name, developerId, page, size, orderBy,
+            direction);
 
-      return new ResponseEntity<>(games, HttpStatus.OK);
+      return new ResponseEntity<>(gameResponseDTOs, HttpStatus.OK);
+   }
+
+   @PostMapping("/{id}/categories/{categoryId}")
+   public ResponseEntity<Void> addCategory(@PathVariable("id") Long id, @PathVariable("categoryId") Long categoryId) {
+      gameService.addCategoryToGame(id, categoryId);
+
+      return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+   }
+
+   @DeleteMapping("/{id}/categories/{categoryId}")
+   public ResponseEntity<Void> removeCategory(@PathVariable("id") Long id,
+         @PathVariable("categoryId") Long categoryId) {
+      gameService.removeCategoryFromGame(id, categoryId);
+
+      return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+   }
+
+   @PostMapping("/{id}/platforms/{platformId}")
+   public ResponseEntity<Void> addPlatform(@PathVariable("id") Long id, @PathVariable("platformId") Long platformId) {
+      gameService.addPlatformToGame(id, platformId);
+
+      return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+   }
+
+   @DeleteMapping("/{id}/platforms/{platformId}")
+   public ResponseEntity<Void> removePlatform(@PathVariable("id") Long id,
+         @PathVariable("platformId") Long platformId) {
+      gameService.removePlatformFromGame(id, platformId);
+
+      return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
    }
 }

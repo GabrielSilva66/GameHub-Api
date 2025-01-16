@@ -1,4 +1,7 @@
 package br.com.gamehub.dto.request;
 
-public record PlatformRequestDTO() {
+import jakarta.validation.constraints.NotBlank;
+
+public record PlatformRequestDTO(
+      @NotBlank String name) {
 }

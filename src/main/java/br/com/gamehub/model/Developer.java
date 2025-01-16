@@ -16,7 +16,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class Developer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_developer")

@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,7 +19,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class Game {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_game")
@@ -34,6 +34,14 @@ public class Game {
 
     @Column(name = "dt_release")
     private LocalDate releaseDate;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "GH_GAME_CATEGORY", joinColumns = @JoinColumn(name = "id_game"), inverseJoinColumns = @JoinColumn(name = "id_category"))
+    private List<Category> categories;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "GH_GAME_PLATFORM", joinColumns = @JoinColumn(name = "id_game"), inverseJoinColumns = @JoinColumn(name = "id_platform"))
+    private List<Platform> platforms;
 
     @CreationTimestamp
     @Column(name = "dt_created_at", nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")

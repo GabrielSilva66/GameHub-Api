@@ -120,6 +120,8 @@ public class WebSecurityConfig {
                                                                                        // common users
                             .requestMatchers("developers/**").permitAll() // Developers routes (testing)
                             .requestMatchers("games/**").permitAll() // Games routes (testing)
+                            .requestMatchers("categories/**").permitAll() // Categories routes (testing)
+                            .requestMatchers("platforms/**").permitAll() // Platforms routes (testing)
                             .anyRequest().authenticated(); // Any other request requires authentication
                 });
 

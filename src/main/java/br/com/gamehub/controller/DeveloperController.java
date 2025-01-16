@@ -78,8 +78,9 @@ public class DeveloperController {
          @RequestParam(defaultValue = "10") Integer size,
          @RequestParam(defaultValue = "id_developer") String orderBy,
          @RequestParam(defaultValue = "asc") String direction) {
-      Page<DeveloperResponseDTO> developers = developerService.searchDevelopers(name, page, size, orderBy, direction);
+      Page<DeveloperResponseDTO> developerResponseDTOs = developerService.searchDevelopers(name, page, size, orderBy,
+            direction);
 
-      return new ResponseEntity<>(developers, HttpStatus.OK);
+      return new ResponseEntity<>(developerResponseDTOs, HttpStatus.OK);
    }
 }
