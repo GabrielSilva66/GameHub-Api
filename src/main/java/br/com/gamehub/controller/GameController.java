@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.gamehub.dto.request.GameCategoryRequestDTO;
+import br.com.gamehub.dto.request.GamePlatformRequestDTO;
 import br.com.gamehub.dto.request.GameRequestDTO;
 import br.com.gamehub.dto.response.GameResponseDTO;
 import br.com.gamehub.service.GameService;
@@ -73,43 +75,43 @@ public class GameController {
    @GetMapping("/search")
    public ResponseEntity<Page<GameResponseDTO>> searchGames(
          @RequestParam(defaultValue = "") String name,
-         @RequestParam(required = false) Optional<Long> developerId,
          @RequestParam(defaultValue = "0") Integer page,
          @RequestParam(defaultValue = "10") Integer size,
          @RequestParam(defaultValue = "id_game") String orderBy,
          @RequestParam(defaultValue = "asc") String direction) {
-      Page<GameResponseDTO> gameResponseDTOs = gameService.searchGames(name, developerId, page, size, orderBy,
+      Page<GameResponseDTO> gameResponseDTOs = gameService.searchGames(name, page, size, orderBy,
             direction);
 
       return new ResponseEntity<>(gameResponseDTOs, HttpStatus.OK);
    }
 
-   @PostMapping("/{id}/categories/{categoryId}")
-   public ResponseEntity<Void> addCategory(@PathVariable("id") Long id, @PathVariable("categoryId") Long categoryId) {
-      gameService.addCategoryToGame(id, categoryId);
+   @PostMapping("/{id}/categories")
+   public ResponseEntity<Void> addCategory(@PathVariable("id") Long id,
+         @RequestBody GameCategoryRequestDTO gameCategoryRequestDTO) {
+      gameService.addCategoriesToGame(id, gameCategoryRequestDTO);
 
       return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
    }
 
-   @DeleteMapping("/{id}/categories/{categoryId}")
+   @DeleteMapping("/{id}/categories")
    public ResponseEntity<Void> removeCategory(@PathVariable("id") Long id,
-         @PathVariable("categoryId") Long categoryId) {
-      gameService.removeCategoryFromGame(id, categoryId);
+         @RequestBody GameCategoryRequestDTO gameCategoryRequestDTO) {
+      gameService.removeCategoriesFromGame(id, gameCategoryRequestDTO);
 
       return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
    }
 
-   @PostMapping("/{id}/platforms/{platformId}")
-   public ResponseEntity<Void> addPlatform(@PathVariable("id") Long id, @PathVariable("platformId") Long platformId) {
-      gameService.addPlatformToGame(id, platformId);
+   @PostMapping("/{id}/platforms")
+   public ResponseEntity<Void> addPlatform(@PathVariable("id") Long id, GamePlatformRequestDTO gamePlatformRequestDTO) {
+      gameService.addPlatformsToGame(id, gamePlatformRequestDTO);
 
       return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
    }
 
-   @DeleteMapping("/{id}/platforms/{platformId}")
+   @DeleteMapping("/{id}/platforms")
    public ResponseEntity<Void> removePlatform(@PathVariable("id") Long id,
-         @PathVariable("platformId") Long platformId) {
-      gameService.removePlatformFromGame(id, platformId);
+         GamePlatformRequestDTO gamePlatformRequestDTO) {
+      gameService.removePlatformsFromGame(id, gamePlatformRequestDTO);
 
       return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
    }
