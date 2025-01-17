@@ -10,4 +10,12 @@ public record GameRequestDTO(@NotNull(message = "Developer ID is required") Long
       @NotBlank(message = "Game name is required") String name, @MaxDate LocalDate releaseDate,
       GamePlatformRequestDTO gamePlatformRequestDTO,
       GameCategoryRequestDTO gameCategoryRequestDTO) {
+   public GameRequestDTO {
+      if (gamePlatformRequestDTO == null) {
+         gamePlatformRequestDTO = new GamePlatformRequestDTO(null);
+      }
+      if (gameCategoryRequestDTO == null) {
+         gameCategoryRequestDTO = new GameCategoryRequestDTO(null);
+      }
+   }
 }
