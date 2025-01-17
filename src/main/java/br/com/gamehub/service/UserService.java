@@ -3,11 +3,15 @@ package br.com.gamehub.service;
 import br.com.gamehub.dto.request.ProfileRequestDTO;
 import br.com.gamehub.dto.response.UserResponseDTO;
 import br.com.gamehub.dto.request.UserRequestDTO;
+import br.com.gamehub.enums.UserType;
+import br.com.gamehub.exception.EntityNotFoundException;
 import br.com.gamehub.mapper.UserMapper;
+import br.com.gamehub.mapper.UserObtainedGameMapper;
 import br.com.gamehub.model.Profile;
 import br.com.gamehub.model.User;
 import br.com.gamehub.repository.ProfileRepository;
 import br.com.gamehub.repository.UserRepository;
+import br.com.gamehub.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -57,4 +61,23 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         return UserMapper.toResponseDTO(user);
     }
+
+    public UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+
+        user.setUserType(Converter.stringToEnum(UserType.class, userRequestDTO.userType()));
+        user.setEmail(userRequestDTO.email());
+        user.setPasswordHash(passwordEncoder.encode(userRequestDTO.passwordHash()));
+        user = userRepository.save(user);
+        return UserMapper.toResponseDTO(user);
+    }
+
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+        userRepository.delete(user);
+    }
+
+
 }
