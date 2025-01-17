@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import br.com.gamehub.dto.request.GameCategoryRequestDTO;
+import br.com.gamehub.dto.request.GamePlatformRequestDTO;
 import br.com.gamehub.dto.request.GameRequestDTO;
 import br.com.gamehub.dto.response.GameResponseDTO;
 import br.com.gamehub.mapper.GameMapper;
@@ -23,10 +25,7 @@ import br.com.gamehub.repository.GameRepository;
 import br.com.gamehub.repository.PlatformRepository;
 import jakarta.persistence.EntityNotFoundException;
 
-/// TODO: Corrigir problemas de dependência em relações Many to Many
-/// TODO: Adicionar busca por Plataforma e Categoria
-/// TODO: Adicionar busca por data de lançamento
-/// TODO: Adicionar adição e remoção em massa de categorias e plataformas
+/// TODO: Corrigir problemas de dependência em relações Many to Many (cascade)
 
 @Service
 public class GameService {
@@ -49,16 +48,10 @@ public class GameService {
             Developer developer = developerRepository.findById(developerId)
                         .orElseThrow(() -> new EntityNotFoundException(
                                     "Developer with id " + developerId + " not found"));
-
-            List<Category> categories = List.of();
-            if (gameRequestDTO.categoryIds() != null) {
-                  categories = categoryRepository.findAllById(gameRequestDTO.categoryIds());
-            }
-
-            List<Platform> platforms = List.of();
-            if (gameRequestDTO.platformIds() != null) {
-                  platforms = platformRepository.findAllById(gameRequestDTO.platformIds());
-            }
+            List<Category> categories = categoryRepository
+                        .findAllById(gameRequestDTO.gameCategoryRequestDTO().categoryIds());
+            List<Platform> platforms = platformRepository
+                        .findAllById(gameRequestDTO.gamePlatformRequestDTO().platformIds());
 
             Game game = GameMapper.toEntity(gameRequestDTO, developer, categories, platforms);
             game = gameRepository.save(game);
@@ -87,16 +80,10 @@ public class GameService {
             Developer developer = developerRepository.findById(developerId)
                         .orElseThrow(() -> new EntityNotFoundException(
                                     "Developer with id " + developerId + " not found"));
-
-            List<Category> categories = List.of();
-            if (gameRequestDTO.categoryIds() != null) {
-                  categories = categoryRepository.findAllById(gameRequestDTO.categoryIds());
-            }
-
-            List<Platform> platforms = List.of();
-            if (gameRequestDTO.platformIds() != null) {
-                  platforms = platformRepository.findAllById(gameRequestDTO.platformIds());
-            }
+            List<Category> categories = categoryRepository
+                        .findAllById(gameRequestDTO.gameCategoryRequestDTO().categoryIds());
+            List<Platform> platforms = platformRepository
+                        .findAllById(gameRequestDTO.gamePlatformRequestDTO().platformIds());
 
             Game game = gameRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFoundException("Game with id " + id + " not found"));
@@ -121,7 +108,6 @@ public class GameService {
 
       public Page<GameResponseDTO> searchGames(
                   String name,
-                  Optional<Long> developerId,
                   Integer page,
                   Integer size,
                   String orderBy,
@@ -129,60 +115,52 @@ public class GameService {
             Sort sort = Sort.by(Sort.Direction.fromString(direction), orderBy);
             Pageable pageable = PageRequest.of(page, size, sort);
 
-            Page<Game> games = gameRepository.search(name, developerId.orElse(null), pageable);
+            Page<Game> games = gameRepository.search(name, pageable);
 
             return games
                         .map(game -> GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(),
                                     game.getPlatforms()));
       }
 
-      public GameResponseDTO addCategoryToGame(Long gameId, Long categoryId) {
+      public GameResponseDTO addCategoriesToGame(Long gameId, GameCategoryRequestDTO gameCategoryRequestDTO) {
             Game game = gameRepository.findById(gameId)
                         .orElseThrow(() -> new EntityNotFoundException("Game with id " + gameId + " not found"));
-            Category category = categoryRepository.findById(categoryId)
-                        .orElseThrow(
-                                    () -> new EntityNotFoundException("Category with id " + categoryId + " not found"));
+            List<Category> category = categoryRepository.findAllById(gameCategoryRequestDTO.categoryIds());
 
-            game.getCategories().add(category);
+            game.getCategories().addAll(category);
             game = gameRepository.save(game);
 
             return GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(), game.getPlatforms());
       }
 
-      public GameResponseDTO removeCategoryFromGame(Long gameId, Long categoryId) {
+      public GameResponseDTO removeCategoriesFromGame(Long gameId, GameCategoryRequestDTO gameCategoryRequestDTO) {
             Game game = gameRepository.findById(gameId)
                         .orElseThrow(() -> new EntityNotFoundException("Game with id " + gameId + " not found"));
-            Category category = categoryRepository.findById(categoryId)
-                        .orElseThrow(
-                                    () -> new EntityNotFoundException("Category with id " + categoryId + " not found"));
+            List<Category> category = categoryRepository.findAllById(gameCategoryRequestDTO.categoryIds());
 
-            game.getCategories().remove(category);
+            game.getCategories().removeAll(category);
             game = gameRepository.save(game);
 
             return GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(), game.getPlatforms());
       }
 
-      public GameResponseDTO addPlatformToGame(Long gameId, Long platformId) {
+      public GameResponseDTO addPlatformsToGame(Long gameId, GamePlatformRequestDTO gamePlatformRequestDTO) {
             Game game = gameRepository.findById(gameId)
                         .orElseThrow(() -> new EntityNotFoundException("Game with id " + gameId + " not found"));
-            Platform platform = platformRepository.findById(platformId)
-                        .orElseThrow(
-                                    () -> new EntityNotFoundException("Platform with id " + platformId + " not found"));
+            List<Platform> platform = platformRepository.findAllById(gamePlatformRequestDTO.platformIds());
 
-            game.getPlatforms().add(platform);
+            game.getPlatforms().addAll(platform);
             game = gameRepository.save(game);
 
             return GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(), game.getPlatforms());
       }
 
-      public GameResponseDTO removePlatformFromGame(Long gameId, Long platformId) {
+      public GameResponseDTO removePlatformsFromGame(Long gameId, GamePlatformRequestDTO gamePlatformRequestDTO) {
             Game game = gameRepository.findById(gameId)
                         .orElseThrow(() -> new EntityNotFoundException("Game with id " + gameId + " not found"));
-            Platform platform = platformRepository.findById(platformId)
-                        .orElseThrow(
-                                    () -> new EntityNotFoundException("Platform with id " + platformId + " not found"));
+            List<Platform> platform = platformRepository.findAllById(gamePlatformRequestDTO.platformIds());
 
-            game.getPlatforms().remove(platform);
+            game.getPlatforms().removeAll(platform);
             game = gameRepository.save(game);
 
             return GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(), game.getPlatforms());
