@@ -12,12 +12,14 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class LowestPrice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_lowes_price")
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,16 +53,4 @@ public class LowestPrice {
         this.updatedAt = LocalDateTime.now();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        LowestPrice that = (LowestPrice) o;
-        return Objects.equals(game, that.game);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(game);
-    }
 }

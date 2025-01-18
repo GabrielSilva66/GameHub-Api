@@ -2,11 +2,8 @@ package br.com.gamehub.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
-
+import java.util.Objects;
 
 @Entity
 @Table(name = "GH_USER_WISHLIST_GAME")
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
 @Builder
 public class UserWishlistGame {
 
@@ -32,13 +30,21 @@ public class UserWishlistGame {
     @JoinColumn(name = "id_game", nullable = false)
     private Game game;
 
-    @CreationTimestamp
-    @Column(name = "dt_created_at", nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
+    @Column(nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "dt_updated_at", nullable = false, columnDefinition = "timestamp default current_timestamp")
+    @Column(nullable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime updatedAt;
 
+    @PrePersist
+    public void onPrePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
 }

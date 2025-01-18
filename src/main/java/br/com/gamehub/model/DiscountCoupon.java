@@ -13,12 +13,14 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class DiscountCoupon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_discount_coupon")
+    @EqualsAndHashCode.Include
     private Long idDiscountCoupon;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -61,16 +63,4 @@ public class DiscountCoupon {
         this.updatedAt = LocalDateTime.now();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DiscountCoupon that = (DiscountCoupon) o;
-        return Objects.equals(idDiscountCoupon, that.idDiscountCoupon);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(idDiscountCoupon);
-    }
 }

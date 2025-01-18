@@ -3,8 +3,6 @@ package br.com.gamehub.model;
 import br.com.gamehub.enums.GameStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,11 +43,22 @@ public class UserObtainedGame {
     @Column(nullable = false, columnDefinition = "varchar(255) default 'not_played'")
     private GameStatus status;
 
-    @CreationTimestamp
-    @Column(name = "dt_created_at", nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
+    @Column(nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "dt_updated_at", nullable = false, columnDefinition = "timestamp default current_timestamp")
+    @Column(nullable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void onPrePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+
 }
