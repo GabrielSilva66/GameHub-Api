@@ -7,6 +7,11 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/// TODO: Criação de Tabela de histórico de cupons de desconto
+/// TODO: Atividade assincrona para expirar cupons de desconto
+/// TODO: Atividade assincrona armazenar os cupons de desconto em cache
+/// TODO: Tabela para armazenar os preços dos jogos nas lojas aplicado o cupom de desconto em tempo real
+
 @Entity
 @Table(name = "GH_DISCOUNT_COUPON")
 @Getter
@@ -63,8 +68,10 @@ public class DiscountCoupon {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         DiscountCoupon that = (DiscountCoupon) o;
         return Objects.equals(idDiscountCoupon, that.idDiscountCoupon);
     }
