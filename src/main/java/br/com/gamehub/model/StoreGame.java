@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+
+import br.com.gamehub.id.StoreGameId;
 
 @Entity
 @Table(name = "GH_STORE_GAME")
@@ -12,23 +13,24 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class StoreGame {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_store_game")
-    private Long id;
+    @EmbeddedId
+    @EqualsAndHashCode.Include
+    private StoreGameId storeGameId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("storeId")
     @JoinColumn(name = "id_store", nullable = false)
     private Store store;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("gameId")
     @JoinColumn(name = "id_game", nullable = false)
     private Game game;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "nu_price", nullable = false)
     private Double price;
 
     @Column(name = "dt_created_at", nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
@@ -46,18 +48,5 @@ public class StoreGame {
     @PreUpdate
     public void onPreUpdate() {
         this.updatedAt = LocalDateTime.now();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StoreGame storeGame = (StoreGame) o;
-        return Objects.equals(id, storeGame.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }

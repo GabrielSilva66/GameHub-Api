@@ -1,7 +1,6 @@
 package br.com.gamehub.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,22 +55,21 @@ public class GameService {
             Game game = GameMapper.toEntity(gameRequestDTO, developer, categories, platforms);
             game = gameRepository.save(game);
 
-            return GameMapper.toResponse(game, developer, categories, platforms);
+            return GameMapper.toResponse(game);
       }
 
       public GameResponseDTO getGameById(Long id) {
             Game game = gameRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFoundException("Game with id " + id + " not found"));
 
-            return GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(), game.getPlatforms());
+            return GameMapper.toResponse(game);
       }
 
       public List<GameResponseDTO> getAllGames() {
             List<Game> games = gameRepository.findAll();
 
             return games.stream()
-                        .map(game -> GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(),
-                                    game.getPlatforms()))
+                        .map(game -> GameMapper.toResponse(game))
                         .toList();
       }
 
@@ -96,7 +94,7 @@ public class GameService {
 
             game = gameRepository.save(game);
 
-            return GameMapper.toResponse(game, developer, categories, platforms);
+            return GameMapper.toResponse(game);
       }
 
       public void deleteGame(Long id) {
@@ -117,9 +115,7 @@ public class GameService {
 
             Page<Game> games = gameRepository.search(name, pageable);
 
-            return games
-                        .map(game -> GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(),
-                                    game.getPlatforms()));
+            return games.map(game -> GameMapper.toResponse(game));
       }
 
       public GameResponseDTO addCategoriesToGame(Long gameId, GameCategoryRequestDTO gameCategoryRequestDTO) {
@@ -130,7 +126,7 @@ public class GameService {
             game.getCategories().addAll(category);
             game = gameRepository.save(game);
 
-            return GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(), game.getPlatforms());
+            return GameMapper.toResponse(game);
       }
 
       public GameResponseDTO removeCategoriesFromGame(Long gameId, GameCategoryRequestDTO gameCategoryRequestDTO) {
@@ -141,7 +137,7 @@ public class GameService {
             game.getCategories().removeAll(category);
             game = gameRepository.save(game);
 
-            return GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(), game.getPlatforms());
+            return GameMapper.toResponse(game);
       }
 
       public GameResponseDTO addPlatformsToGame(Long gameId, GamePlatformRequestDTO gamePlatformRequestDTO) {
@@ -152,7 +148,7 @@ public class GameService {
             game.getPlatforms().addAll(platform);
             game = gameRepository.save(game);
 
-            return GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(), game.getPlatforms());
+            return GameMapper.toResponse(game);
       }
 
       public GameResponseDTO removePlatformsFromGame(Long gameId, GamePlatformRequestDTO gamePlatformRequestDTO) {
@@ -163,6 +159,6 @@ public class GameService {
             game.getPlatforms().removeAll(platform);
             game = gameRepository.save(game);
 
-            return GameMapper.toResponse(game, game.getDeveloper(), game.getCategories(), game.getPlatforms());
+            return GameMapper.toResponse(game);
       }
 }
