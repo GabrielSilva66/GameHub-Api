@@ -3,7 +3,9 @@ package br.com.gamehub.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "GH_DEVELOPER")
@@ -11,12 +13,13 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class Developer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_developer")
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "no_name", nullable = false)
@@ -28,33 +31,11 @@ public class Developer {
     @Column(name = "no_host_country")
     private String hostCountry;
 
+    @CreationTimestamp
     @Column(name = "dt_created_at", nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "dt_updated_at", nullable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime updatedAt;
-
-    @PrePersist
-    public void onPrePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void onPreUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Developer developer = (Developer) o;
-        return Objects.equals(id, developer.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 }

@@ -1,6 +1,5 @@
 package br.com.gamehub.security;
 
-
 import br.com.gamehub.security.jwt.AuthEntryPointJWT;
 import br.com.gamehub.security.jwt.AuthFilterToken;
 import br.com.gamehub.security.jwt.JwtUtils;
@@ -35,17 +34,17 @@ public class WebSecurityConfig {
      * Constructor for initializing WebSecurityConfig.
      *
      * @param unauthorizedHandler The handler for unauthorized access.
-     * @param jwtUtils The utility class for handling JWT tokens.
-     * @param userDetailsService The service that loads user details.
+     * @param jwtUtils            The utility class for handling JWT tokens.
+     * @param userDetailsService  The service that loads user details.
      */
     @Autowired
-    public WebSecurityConfig(AuthEntryPointJWT unauthorizedHandler, JwtUtils jwtUtils, UserDetailsService userDetailsService) {
+    public WebSecurityConfig(AuthEntryPointJWT unauthorizedHandler, JwtUtils jwtUtils,
+            UserDetailsService userDetailsService) {
         this.unauthorizedHandler = unauthorizedHandler;
         this.jwtUtils = jwtUtils;
         this.userDetailsService = userDetailsService;
         logger.info("WebSecurityConfig initialized with AuthEntryPointJWT, JwtUtils, and UserDetailsService.");
     }
-
 
     /**
      * Bean definition for the PasswordEncoder.
@@ -53,7 +52,7 @@ public class WebSecurityConfig {
      * @return A new instance of BCryptPasswordEncoder to encode passwords.
      */
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         logger.debug("Initializing PasswordEncoder (BCryptPasswordEncoder).");
         return new BCryptPasswordEncoder();
     }
@@ -67,7 +66,7 @@ public class WebSecurityConfig {
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-            throws Exception{
+            throws Exception {
         logger.debug("Configuring AuthenticationManager.");
         return authenticationConfiguration.getAuthenticationManager();
     }
@@ -78,21 +77,22 @@ public class WebSecurityConfig {
      * @return A new instance of AuthFilterToken.
      */
     @Bean
-    public AuthFilterToken authFilterToken(){
+    public AuthFilterToken authFilterToken() {
         logger.debug("Creating AuthFilterToken bean.");
         return new AuthFilterToken(jwtUtils, userDetailsService);
     }
 
     /**
      * Configures the SecurityFilterChain for the application.
-     * Defines the request authorization rules, exception handling, and session management.
+     * Defines the request authorization rules, exception handling, and session
+     * management.
      *
      * @param http The HttpSecurity instance used for configuring security settings.
      * @return The SecurityFilterChain to be applied to the HTTP requests.
      * @throws Exception If there is an issue with the security configuration.
      */
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         logger.info("Configuring SecurityFilterChain.");
 
         // Enable CORS with default settings
@@ -116,7 +116,12 @@ public class WebSecurityConfig {
                     auth.requestMatchers("/auth/**").permitAll() // Public routes
                             .requestMatchers("/usuarios/cadastrar").permitAll() // Public registration route
                             .requestMatchers("/admin/**").hasRole("ADMIN") // Only accessible by admins
-                            .requestMatchers("/user/**").hasAnyRole("ADMIN", "COMMON") // Accessible by admins and common users
+                            .requestMatchers("/user/**").hasAnyRole("ADMIN", "COMMON") // Accessible by admins and
+                                                                                       // common users
+                            .requestMatchers("developers/**").permitAll() // Developers routes (testing)
+                            .requestMatchers("games/**").permitAll() // Games routes (testing)
+                            .requestMatchers("categories/**").permitAll() // Categories routes (testing)
+                            .requestMatchers("platforms/**").permitAll() // Platforms routes (testing)
                             .anyRequest().authenticated(); // Any other request requires authentication
                 });
 
