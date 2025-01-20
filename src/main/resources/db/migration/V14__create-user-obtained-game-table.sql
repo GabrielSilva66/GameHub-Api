@@ -4,7 +4,7 @@ CREATE TABLE GH_USER_OBTAINED_GAME (
     id_game INTEGER NOT NULL,
     id_store INTEGER,
     dt_obtained DATE,
-    st_status VARCHAR(255) DEFAULT 'NOT_PLAYED',
+    st_status game_status DEFAULT 'NOT_PLAYED',
     dt_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     dt_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_user FOREIGN KEY (id_user) REFERENCES GH_USER(id_user),
