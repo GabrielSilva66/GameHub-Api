@@ -3,7 +3,6 @@ package br.com.gamehub.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Table(name = "GH_STORE")
@@ -14,7 +13,6 @@ import java.util.Objects;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class Store {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_store")
@@ -43,5 +41,4 @@ public class Store {
     public void onPreUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
-
 }

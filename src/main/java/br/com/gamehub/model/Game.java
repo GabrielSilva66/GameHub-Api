@@ -11,6 +11,8 @@ import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/// TODO: Adicionar referências para a entidade StoreGame
+
 @Entity
 @Table(name = "GH_GAME")
 @Getter
