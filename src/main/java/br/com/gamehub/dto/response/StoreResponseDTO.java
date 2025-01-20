@@ -1,4 +1,7 @@
 package br.com.gamehub.dto.response;
 
-public record StoreResponseDTO() {
-}
+public record StoreResponseDTO(
+        String name,
+        String url
+
+) {}

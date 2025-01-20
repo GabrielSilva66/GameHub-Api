@@ -1,6 +1,7 @@
 package br.com.gamehub.service;
 
 import br.com.gamehub.dto.request.UserObtainedGameRequestDTO;
+import br.com.gamehub.dto.response.GameResponseDTO;
 import br.com.gamehub.dto.response.UserObtainedGameResponseDTO;
 import br.com.gamehub.dto.response.UserResponseDTO;
 import br.com.gamehub.exception.EntityAlreadyExistsException;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 public class UserObtainedGameService {
 
@@ -25,14 +27,16 @@ public class UserObtainedGameService {
     private final UserObtainedGameRepository obtainedGameRepository;
     private final StoreRepository storeRepository;
     private final GameRepository gameRepository;
+    private final GameService gameService;
 
     @Autowired
     public UserObtainedGameService(UserRepository userRepository, UserObtainedGameRepository obtainedGameRepository,
-                                   StoreRepository storeRepository, GameRepository gameRepository) {
+                                   StoreRepository storeRepository, GameRepository gameRepository, GameService gameService) {
         this.userRepository = userRepository;
         this.obtainedGameRepository = obtainedGameRepository;
         this.storeRepository = storeRepository;
         this.gameRepository = gameRepository;
+        this.gameService = gameService;
     }
 
     public UserObtainedGameResponseDTO createObtainedGame(Long userId, UserObtainedGameRequestDTO obtainedGameDTO) {
@@ -49,7 +53,7 @@ public class UserObtainedGameService {
         UserObtainedGame obtainedGame = UserObtainedGameMapper.toEntity(obtainedGameDTO, user, game, store);
         obtainedGame = obtainedGameRepository.save(obtainedGame);
 
-        return UserObtainedGameMapper.toResponseDTO(obtainedGame);
+        return UserObtainedGameMapper.toResponseDTO(obtainedGame, gameService.getGameById(game.getId()));
     }
 
 
@@ -62,16 +66,18 @@ public class UserObtainedGameService {
         }
 
         return obtainedGames.stream()
-                .map(UserObtainedGameMapper::toResponseDTO)
+                .map(userObtainedGame -> {
+                    GameResponseDTO gameResponseDTO = gameService.getGameById(userObtainedGame.getId());
+                    return UserObtainedGameMapper.toResponseDTO(userObtainedGame, gameResponseDTO);
+                })
                 .collect(Collectors.toList());
     }
 
     public UserObtainedGameResponseDTO getObtainedGameById(Long userId, Long gameId) {
-        // Busca o jogo obtido pelo usuário e ID do jogo
         UserObtainedGame obtainedGame = obtainedGameRepository.findByUserIdAndGameId(userId, gameId)
                 .orElseThrow(() -> new EntityNotFoundException("Obtained game not found for user with id: " + userId + " and game id: " + gameId));
 
-        return UserObtainedGameMapper.toResponseDTO(obtainedGame);
+        return UserObtainedGameMapper.toResponseDTO(obtainedGame, gameService.getGameById(gameId));
     }
 
     public void deleteObtainedGame(Long userId, Long gameId) {

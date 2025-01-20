@@ -1,4 +1,5 @@
 package br.com.gamehub.dto.request;
 
-public record UserWishlistGameRequestDTO() {
-}
+public record UserWishlistGameRequestDTO(
+        Long gameId
+) { }

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserObtainedGameRepository extends JpaRepository<UserObtainedGame, Long> {
-//    UserObtainedGame findByUserIdAndGameId(Long userId, Long gameId);
     Optional<UserObtainedGame> findByUserIdAndGameId(Long userId, Long gameId);
 
     List<UserObtainedGame> findAllByUserId(Long userId);

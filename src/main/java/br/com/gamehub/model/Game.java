@@ -26,7 +26,7 @@ public class Game {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_developer", nullable = false)
     private Developer developer;
 

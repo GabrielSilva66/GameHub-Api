@@ -40,7 +40,7 @@ public class UserObtainedGameController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
      }
 
-     @GetMapping("/{userid}/jogos-obtidos/")
+     @GetMapping("/{userid}/jogos-obtidos")
      public ResponseEntity<List<UserObtainedGameResponseDTO>> getAllObtainedGames(@PathVariable Long userid) {
          List<UserObtainedGameResponseDTO> obtainedGameList = obtainedGameService.getAllObtainedGames(userid);
          return new ResponseEntity<>(obtainedGameList, HttpStatus.OK);

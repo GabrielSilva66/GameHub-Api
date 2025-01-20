@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_category")
+@Table(name = "gh_category")
 @Getter
 @Setter
 @NoArgsConstructor

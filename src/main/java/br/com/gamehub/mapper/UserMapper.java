@@ -23,7 +23,7 @@ public class UserMapper {
         if(dto.userType() != null){
             user.setUserType(Converter.stringToEnum(UserType.class, dto.userType()));
         }
-        user.setUserType(Converter.stringToEnum(UserType.class, UserType.USER.toString()));
+        user.setUserType(Converter.stringToEnum(UserType.class, UserType.COMMON.toString()));
 
         user.setProfile(profile);
 
