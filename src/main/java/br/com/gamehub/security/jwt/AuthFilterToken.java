@@ -109,9 +109,11 @@ public class AuthFilterToken extends OncePerRequestFilter {
      */
     private String getToken(HttpServletRequest request) {
         String headerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(headerToken) && headerToken.startsWith("Bearer")) {
-            logger.info("Token found in header: " + headerToken);
-            return headerToken.replace("Bearer: ", "").trim();
+        if (StringUtils.hasText(headerToken)
+                && (headerToken.startsWith("Bearer") || headerToken.startsWith("Bearer:"))) {
+            String token = headerToken.replaceFirst("(?i)^Bearer[:\\s]*", "").trim();
+            logger.info("Token found in header: " + token);
+            return token;
         }
         logger.warn("No 'Bearer' token found in the Authorization header.");
         return null;
