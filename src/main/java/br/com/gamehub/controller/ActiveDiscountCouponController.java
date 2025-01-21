@@ -29,13 +29,6 @@ public class ActiveDiscountCouponController {
       this.activeDiscountCouponService = activeDiscountCouponService;
    }
 
-   @PostMapping("/{id}")
-   public ResponseEntity<DiscountCouponResponseDTO> createActiveDiscountCoupon(@PathVariable("id") Long id) {
-      DiscountCouponResponseDTO discountCouponResponseDTO = activeDiscountCouponService.createActiveDiscountCoupon(id);
-
-      return new ResponseEntity<>(discountCouponResponseDTO, HttpStatus.CREATED);
-   }
-
    @GetMapping("/{id}")
    public ResponseEntity<DiscountCouponResponseDTO> getActiveDiscountCouponById(@PathVariable("id") Long id) {
       DiscountCouponResponseDTO discountCouponResponseDTO = activeDiscountCouponService.getActiveDiscountCouponById(id);
@@ -48,13 +41,6 @@ public class ActiveDiscountCouponController {
       List<DiscountCouponResponseDTO> discountCoupons = activeDiscountCouponService.getAllActiveDiscountCoupons();
 
       return new ResponseEntity<>(discountCoupons, HttpStatus.OK);
-   }
-
-   @DeleteMapping("/{id}")
-   public ResponseEntity<Void> deleteActiveDiscountCoupon(@PathVariable("id") Long id) {
-      activeDiscountCouponService.deleteActiveDiscountCoupon(id);
-
-      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
    }
 
    @GetMapping("/search")
