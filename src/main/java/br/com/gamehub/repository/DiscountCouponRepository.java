@@ -13,6 +13,6 @@ public interface DiscountCouponRepository extends JpaRepository<DiscountCoupon, 
    @NativeQuery("SELECT * FROM GH_DISCOUNT_COUPON WHERE no_name ILIKE %?1%")
    Page<DiscountCoupon> search(String name, Pageable pageable);
 
-   @NativeQuery("SELECT * FROM GH_DISCOUNT_COUPON WHERE dt_initial >= now() AND dt_deadline <= now()")
+   @NativeQuery("SELECT * FROM GH_DISCOUNT_COUPON WHERE dt_initial <= now() AND dt_deadline > now()")
    List<DiscountCoupon> findActiveCoupons();
 }

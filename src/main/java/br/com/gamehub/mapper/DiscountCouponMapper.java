@@ -3,14 +3,16 @@ package br.com.gamehub.mapper;
 import br.com.gamehub.dto.request.DiscountCouponRequestDTO;
 import br.com.gamehub.dto.response.DiscountCouponResponseDTO;
 import br.com.gamehub.model.DiscountCoupon;
+import br.com.gamehub.model.Store;
 
 public class DiscountCouponMapper {
-   public static DiscountCoupon toEntity(DiscountCouponRequestDTO discountCouponRequestDTO) {
+   public static DiscountCoupon toEntity(DiscountCouponRequestDTO discountCouponRequestDTO, Store store) {
       if (discountCouponRequestDTO == null) {
          return null;
       }
 
       return DiscountCoupon.builder()
+            .store(store)
             .name(discountCouponRequestDTO.name())
             .couponType(discountCouponRequestDTO.couponType())
             .value(discountCouponRequestDTO.value())
@@ -28,6 +30,7 @@ public class DiscountCouponMapper {
       return new DiscountCouponResponseDTO(
             discountCoupon.getIdDiscountCoupon(),
             discountCoupon.getName(),
+            StoreMapper.toResponse(discountCoupon.getStore()),
             discountCoupon.getCouponType(),
             discountCoupon.getValue(),
             discountCoupon.getInitialDate(),

@@ -90,7 +90,8 @@ public class ActiveDiscountCouponService {
             for (ActiveDiscountCoupon activeDiscountCoupon : activeDiscountCoupons) {
                   DiscountCoupon discountCoupon = activeDiscountCoupon.getDiscountCoupon();
 
-                  if (discountCoupon.getDeadline().isBefore(LocalDateTime.now())) {
+                  if (discountCoupon.getDeadline() != null
+                              && discountCoupon.getDeadline().isBefore(LocalDateTime.now())) {
                         activeDiscountCouponRepository.delete(activeDiscountCoupon);
                   }
             }

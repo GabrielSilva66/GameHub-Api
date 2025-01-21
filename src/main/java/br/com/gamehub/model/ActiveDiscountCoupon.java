@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 
 import br.com.gamehub.enums.CouponType;
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -28,12 +30,12 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class ActiveDiscountCoupon {
-   @Id
-   @Column(name = "id_discount_coupon")
+   @EmbeddedId
    @EqualsAndHashCode.Include
-   private Long id;
+   private Long idDiscountCoupon;
 
    @OneToOne(fetch = FetchType.LAZY)
+   @MapsId
    @JoinColumn(name = "id_discount_coupon", nullable = false)
    private DiscountCoupon discountCoupon;
 

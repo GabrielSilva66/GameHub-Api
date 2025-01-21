@@ -23,7 +23,7 @@ import br.com.gamehub.service.DiscountCouponService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/discount-coupon")
+@RequestMapping("/discount-coupons")
 @CrossOrigin
 public class DiscountCouponController {
    private final DiscountCouponService discountCouponService;

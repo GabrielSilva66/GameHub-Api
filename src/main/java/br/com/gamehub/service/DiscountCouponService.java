@@ -13,20 +13,28 @@ import br.com.gamehub.dto.request.DiscountCouponRequestDTO;
 import br.com.gamehub.dto.response.DiscountCouponResponseDTO;
 import br.com.gamehub.mapper.DiscountCouponMapper;
 import br.com.gamehub.model.DiscountCoupon;
+import br.com.gamehub.model.Store;
 import br.com.gamehub.repository.DiscountCouponRepository;
+import br.com.gamehub.repository.StoreRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class DiscountCouponService {
    private final DiscountCouponRepository discountCouponRepository;
+   private final StoreRepository storeRepository;
 
    @Autowired
-   public DiscountCouponService(DiscountCouponRepository discountCouponRepository) {
+   public DiscountCouponService(DiscountCouponRepository discountCouponRepository, StoreRepository storeRepository) {
       this.discountCouponRepository = discountCouponRepository;
+      this.storeRepository = storeRepository;
    }
 
    public DiscountCouponResponseDTO createDiscountCoupon(DiscountCouponRequestDTO discountCouponRequestDTO) {
-      DiscountCoupon discountCoupon = DiscountCouponMapper.toEntity(discountCouponRequestDTO);
+      Long storeId = discountCouponRequestDTO.storeId();
+      Store store = storeRepository.findById(storeId).orElseThrow(
+            () -> new EntityNotFoundException("Store with id " + storeId + " not found"));
+
+      DiscountCoupon discountCoupon = DiscountCouponMapper.toEntity(discountCouponRequestDTO, store);
       discountCoupon = discountCouponRepository.save(discountCoupon);
 
       return DiscountCouponMapper.toResponse(discountCoupon);
