@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios")  // Define o caminho base para os endpoints relacionados ao usuário
+@RequestMapping("/usuarios")
 @CrossOrigin
 public class UserController {
 
