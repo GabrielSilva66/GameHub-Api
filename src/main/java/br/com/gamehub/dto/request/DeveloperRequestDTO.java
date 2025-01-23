@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 public record DeveloperRequestDTO(
-      @NotBlank(message = "Name is mandatory") String name,
-      @Min(value = 1900, message = "Year of foundation must be greater than 1900") @MaxYear Integer yearOfFoundation,
-      String hostCountry) {
+            @NotBlank(message = "Name is mandatory") String name,
+            @Min(value = 1900, message = "Year of foundation must be greater than 1900") @MaxYear(message = "Year of foundation must be less than or equal to the current year") Integer yearOfFoundation,
+            String hostCountry) {
 }

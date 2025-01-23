@@ -3,5 +3,5 @@ package br.com.gamehub.dto.request;
 import jakarta.validation.constraints.NotBlank;
 
 public record PlatformRequestDTO(
-      @NotBlank String name) {
+      @NotBlank(message = "Name is mandatory") String name) {
 }
