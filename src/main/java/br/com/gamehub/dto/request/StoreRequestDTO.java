@@ -5,6 +5,6 @@ import org.hibernate.validator.constraints.URL;
 import jakarta.validation.constraints.NotBlank;
 
 public record StoreRequestDTO(
-      @NotBlank String name,
-      @NotBlank @URL String url) {
+            @NotBlank(message = "Name is mandatory") String name,
+            @NotBlank(message = "URL is mandatory") @URL(message = "Invalid URL") String url) {
 }

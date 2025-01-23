@@ -114,14 +114,19 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     logger.info("Configuring authorization rules.");
                     auth.requestMatchers("/auth/**").permitAll() // Public routes
-                            .requestMatchers("/**").permitAll() // Public registration route
-//                            .requestMatchers("/admin/**").hasRole("ADMIN") // Only accessible by admins
-//                            .requestMatchers("/user/**").hasAnyRole("ADMIN", "COMMON") // Accessible by admins and
-//                                                                                       // common users
-//                            .requestMatchers("developers/**").permitAll() // Developers routes (testing)
-//                            .requestMatchers("games/**").permitAll() // Games routes (testing)
-//                            .requestMatchers("categories/**").permitAll() // Categories routes (testing)
-//                            .requestMatchers("platforms/**").permitAll() // Platforms routes (testing)
+                            .requestMatchers("/usuarios/cadastrar").permitAll() // Public registration route
+                            .requestMatchers("/admin/**").hasRole("ADMIN") // Only accessible by admins
+                            .requestMatchers("/user/**").hasAnyRole("ADMIN", "COMMON") // Accessible by admins and
+                                                                                       // common users
+                            .requestMatchers("developers/**").permitAll() // Developers routes (testing)
+                            .requestMatchers("games/**").permitAll() // Games routes (testing)
+                            .requestMatchers("categories/**").permitAll() // Categories routes (testing)
+                            .requestMatchers("platforms/**").permitAll() // Platforms routes (testing)
+                            .requestMatchers("stores/**").permitAll() // Stores routes (testing)
+                            .requestMatchers("store-games/**").permitAll() // Store games routes (testing)
+                            .requestMatchers("discount-coupons/**").permitAll() // Discount coupon routes (testing)
+                            .requestMatchers("active-discount-coupons/**").permitAll() // Active discount coupons routes
+                                                                                       // (testing)
                             .anyRequest().authenticated(); // Any other request requires authentication
                 });
 
