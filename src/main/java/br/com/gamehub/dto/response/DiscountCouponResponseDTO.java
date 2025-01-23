@@ -1,4 +1,16 @@
 package br.com.gamehub.dto.response;
 
-public record DiscountCouponResponseDTO() {
+import java.time.LocalDateTime;
+
+import br.com.gamehub.enums.CouponType;
+
+public record DiscountCouponResponseDTO(
+            Long id,
+            String name,
+            StoreResponseDTO store,
+            CouponType couponType,
+            Double value,
+            LocalDateTime initialDate,
+            LocalDateTime deadline,
+            Double minPriceToUse) {
 }

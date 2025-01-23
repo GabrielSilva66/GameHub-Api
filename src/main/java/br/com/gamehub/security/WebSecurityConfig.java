@@ -122,6 +122,11 @@ public class WebSecurityConfig {
                             .requestMatchers("games/**").permitAll() // Games routes (testing)
                             .requestMatchers("categories/**").permitAll() // Categories routes (testing)
                             .requestMatchers("platforms/**").permitAll() // Platforms routes (testing)
+                            .requestMatchers("stores/**").permitAll() // Stores routes (testing)
+                            .requestMatchers("store-games/**").permitAll() // Store games routes (testing)
+                            .requestMatchers("discount-coupons/**").permitAll() // Discount coupon routes (testing)
+                            .requestMatchers("active-discount-coupons/**").permitAll() // Active discount coupons routes
+                                                                                       // (testing)
                             .anyRequest().authenticated(); // Any other request requires authentication
                 });
 

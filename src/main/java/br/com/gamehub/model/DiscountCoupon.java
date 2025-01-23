@@ -4,8 +4,11 @@ import br.com.gamehub.enums.CouponType;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.util.Objects;
+
+/// TODO: Criação de Tabela de histórico de cupons de desconto
+/// TODO: Atividade assincrona para expirar cupons de desconto
+/// TODO: Atividade assincrona armazenar os cupons de desconto em cache
+/// TODO: Tabela para armazenar os preços dos jogos nas lojas aplicado o cupom de desconto em tempo real
 
 @Entity
 @Table(name = "GH_DISCOUNT_COUPON")
@@ -13,12 +16,13 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 public class DiscountCoupon {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_discount_coupon")
+    @EqualsAndHashCode.Include
     private Long idDiscountCoupon;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,14 +39,14 @@ public class DiscountCoupon {
     @Column(name = "nu_value", nullable = false)
     private Double value;
 
-    @Column(name = "dt_deadline")
-    private LocalDate deadline;
+    @Column(name = "dt_initial")
+    private LocalDateTime initialDate;
 
-    @Column(name = "nu_maximum_use")
-    private Integer maxUsage;
+    @Column(name = "dt_deadline")
+    private LocalDateTime deadline;
 
     @Column(name = "nu_minimum_price")
-    private Double minPrice;
+    private Double minPriceToUse;
 
     @Column(name = "dt_created_at", nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime createdAt;
@@ -59,18 +63,5 @@ public class DiscountCoupon {
     @PreUpdate
     public void onPreUpdate() {
         this.updatedAt = LocalDateTime.now();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DiscountCoupon that = (DiscountCoupon) o;
-        return Objects.equals(idDiscountCoupon, that.idDiscountCoupon);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(idDiscountCoupon);
     }
 }

@@ -31,17 +31,16 @@ public class GameMapper {
             .build();
    }
 
-   public static GameResponseDTO toResponse(Game game, Developer developer, List<Category> categories,
-         List<Platform> platforms) {
+   public static GameResponseDTO toResponse(Game game) {
       if (game == null) {
          return null;
       }
 
-      DeveloperResponseDTO developerResponseDTO = DeveloperMapper.toResponse(developer);
-      List<CategoryResponseDTO> categoryResponseDTOs = categories.stream()
+      DeveloperResponseDTO developerResponseDTO = DeveloperMapper.toResponse(game.getDeveloper());
+      List<CategoryResponseDTO> categoryResponseDTOs = game.getCategories().stream()
             .map(CategoryMapper::toResponse)
             .collect(Collectors.toList());
-      List<PlatformResponseDTO> platformResponseDTOs = platforms.stream()
+      List<PlatformResponseDTO> platformResponseDTOs = game.getPlatforms().stream()
             .map(PlatformMapper::toResponse)
             .collect(Collectors.toList());
 
