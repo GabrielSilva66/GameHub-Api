@@ -3,7 +3,6 @@ package br.com.gamehub.controller;
 
 import br.com.gamehub.dto.request.UserRequestDTO;
 import br.com.gamehub.dto.response.UserResponseDTO;
-import br.com.gamehub.exception.EntityNotFoundException;
 import br.com.gamehub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios")  // Define o caminho base para os endpoints relacionados ao usuário
+@RequestMapping("/usuarios")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
@@ -49,25 +49,5 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable("id") Long id, @RequestBody UserRequestDTO userRequestDTO) {
-        try {
-            UserResponseDTO updatedUser = userService.updateUser(id, userRequestDTO);
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    // Endpoint para deletar um usuário por ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
-        try {
-            userService.deleteUser(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
+    //    TODO UPDATE USER AND DELETE
 }
