@@ -1,10 +1,11 @@
 package br.com.gamehub.dto.response;
 
-import br.com.gamehub.enums.UserType;
-
-
+/**
+ * Data Transfer Object (DTO) representing the response for a user's wishlist game.
+ * This DTO contains the game details that the user has added to their wishlist.
+ *
+ * @param game the game that is part of the user's wishlist.
+ */
 public record UserWishlistGameResponseDTO(
-        Long id,
-        String email,
-        UserType userType
+        GameResponseDTO game
 ) {}

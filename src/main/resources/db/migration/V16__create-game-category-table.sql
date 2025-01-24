@@ -1,9 +1,0 @@
-CREATE TABLE GH_GAME_CATEGORY (
-    id_game_category SERIAL PRIMARY KEY,
-    id_game INTEGER NOT NULL,
-    id_category INTEGER NOT NULL,
-    dt_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    dt_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_game FOREIGN KEY (id_game) REFERENCES GH_GAME(id_game),
-    CONSTRAINT fk_category FOREIGN KEY (id_category) REFERENCES GH_CATEGORY(id_category)
-);

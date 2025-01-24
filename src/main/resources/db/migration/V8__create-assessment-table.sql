@@ -3,7 +3,7 @@ CREATE TABLE GH_ASSESSMENT (
     id_user INTEGER NOT NULL,
     id_game INTEGER NOT NULL,
     nu_rating INTEGER NOT NULL,
-    ds_assessment VARCHAR(1024),
+    ds_comment VARCHAR(1024),
     dt_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     dt_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_user FOREIGN KEY (id_user) REFERENCES GH_USER(id_user),

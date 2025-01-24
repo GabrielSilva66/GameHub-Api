@@ -1,3 +1,13 @@
+/**
+ * Service for managing user profiles.
+ * <p>
+ * This service provides methods to create, retrieve, update, and delete user profiles.
+ * It interacts with the {@link ProfileRepository}.
+ * </p>
+ *
+ * @author Gabriel Victor
+ * @since 2025-01-23
+ */
 package br.com.gamehub.service;
 
 import br.com.gamehub.dto.request.ProfileRequestDTO;
@@ -14,48 +24,71 @@ import java.util.Optional;
 @Service
 public class ProfileService {
 
-    private  final ProfileRepository profileRepository; // Assume que você tenha um ProfileRepository
+    private final ProfileRepository profileRepository; // Assume que você tenha um ProfileRepository
 
     @Autowired
     public ProfileService(ProfileRepository profileRepository){
         this.profileRepository = profileRepository;  // Associa o repositório ao service
     }
-    
-    
 
-    // Criar novo perfil
+    /**
+     * Creates a new user profile.
+     *
+     * @param dto the profile request DTO containing the profile details.
+     * @return the response DTO for the newly created profile.
+     */
     public ProfileResponseDTO createProfile(ProfileRequestDTO dto) {
         Profile profile = ProfileMapper.toEntity(dto); // Usando o método toEntity que você forneceu
         profile = profileRepository.save(profile);
-        return ProfileMapper.toResponseDTO(profile); // Converte para DTO para retornar
+        return ProfileMapper.toResponse(profile); // Converte para DTO para retornar
     }
 
-    // Obter todos os perfis
+    /**
+     * Retrieves all user profiles.
+     *
+     * @return a list of response DTOs for all user profiles.
+     */
     public List<ProfileResponseDTO> getAllProfiles() {
         List<Profile> profiles = profileRepository.findAll();
         return profiles.stream()
-                .map(ProfileMapper::toResponseDTO)
+                .map(ProfileMapper::toResponse)
                 .toList(); // Converte todos para DTOs
     }
 
-    // Obter perfil por ID
+    /**
+     * Retrieves a user profile by its ID.
+     *
+     * @param id the ID of the user profile to retrieve.
+     * @return the response DTO for the specified profile, or null if not found.
+     */
     public ProfileResponseDTO getProfileById(Long id) {
         Optional<Profile> profile = profileRepository.findById(id);
-        return profile.map(ProfileMapper::toResponseDTO).orElse(null);
+        return profile.map(ProfileMapper::toResponse).orElse(null);
     }
 
-    // Atualizar perfil existente
+    /**
+     * Updates an existing user profile.
+     *
+     * @param id the ID of the profile to update.
+     * @param dto the request DTO containing the updated profile details.
+     * @return the response DTO for the updated profile, or null if the profile does not exist.
+     */
     public ProfileResponseDTO updateProfile(Long id, ProfileRequestDTO dto) {
         Optional<Profile> optionalProfile = profileRepository.findById(id);
         if (optionalProfile.isPresent()) {
             Profile profile = ProfileMapper.toEntity(dto);
             profile = profileRepository.save(profile);
-            return ProfileMapper.toResponseDTO(profile); // Retorna o perfil atualizado
+            return ProfileMapper.toResponse(profile); // Retorna o perfil atualizado
         }
         return null; // Caso não exista um perfil com o ID fornecido
     }
 
-    // Excluir perfil por ID
+    /**
+     * Deletes a user profile by its ID.
+     *
+     * @param id the ID of the profile to delete.
+     * @return true if the profile was deleted successfully, false if not found.
+     */
     public boolean deleteProfile(Long id) {
         if (profileRepository.existsById(id)) {
             profileRepository.deleteById(id);
