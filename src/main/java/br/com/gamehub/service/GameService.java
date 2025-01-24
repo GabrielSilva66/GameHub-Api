@@ -89,6 +89,7 @@ public class GameService {
             Game game = GameMapper.toEntity(gameRequestDTO, developer, categories, platforms);
             game = gameRepository.save(game);
 
+
             return GameMapper.toResponse(game);
       }
 

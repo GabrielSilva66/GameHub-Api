@@ -19,8 +19,12 @@
  */
 package br.com.gamehub.enums;
 
+/**
+ * Enum representing the different gender options available.
+ * It is used for storing and categorizing gender information in user profiles.
+ */
 public enum Gender {
-    MALE,
-    FEMALE,
-    OTHER
+    MALE,    // Represents male gender
+    FEMALE,  // Represents female gender
+    OTHER    // Represents any other gender
 }

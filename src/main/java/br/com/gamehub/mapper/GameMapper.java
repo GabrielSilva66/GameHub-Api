@@ -78,6 +78,8 @@ public class GameMapper {
             game.getName(),
             game.getReleaseDate(),
             categoryResponseDTOs,
-            platformResponseDTOs);
+            platformResponseDTOs,
+            game.getRating(),
+            game.getTotalEvaluation());
    }
 }

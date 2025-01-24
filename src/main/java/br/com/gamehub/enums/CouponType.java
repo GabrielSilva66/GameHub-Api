@@ -18,7 +18,11 @@
  */
 package br.com.gamehub.enums;
 
+/**
+ * Enum representing the types of coupons available.
+ * The coupon can either be a fixed value or a percentage discount.
+ */
 public enum CouponType {
-    VALUE,
-    PERCENTAGE
+    VALUE,       // Represents a fixed value discount
+    PERCENTAGE   // Represents a percentage-based discount
 }

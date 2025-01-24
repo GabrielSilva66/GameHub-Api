@@ -41,11 +41,14 @@ import jakarta.validation.constraints.NotNull;
  * @param gameCategoryRequestDTO the category details of the game. If null, a
  *                               default value will be assigned.
  */
-public record GameRequestDTO(@NotNull(message = "Developer ID is required") Long developerId,
+public record GameRequestDTO(
+        @NotNull(message = "Developer ID is required") Long developerId,
       @NotBlank(message = "Game name is mandatory") String name,
       @MaxDate(message = "Release date must be less than or equal to the current date") LocalDate releaseDate,
       GamePlatformRequestDTO gamePlatformRequestDTO,
-      GameCategoryRequestDTO gameCategoryRequestDTO) {
+      GameCategoryRequestDTO gameCategoryRequestDTO
+
+) {
 
    /**
     * Constructor to ensure that if platform or category details are not provided,

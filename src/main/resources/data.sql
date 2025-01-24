@@ -1,13 +1,13 @@
 
 INSERT INTO GH_PROFILE (no_name, dt_birth_date, gender)
 VALUES
-('Alice Johnson', '1990-05-20', 'FEMALE'),
-('John Doe', '1985-03-15', 'MALE');
+('Gabriel Victor', '1990-05-20', 'MALE'),
+('Pedro Lucas', '1985-03-15', 'MALE');
 
 INSERT INTO GH_USER (no_email, no_password_hash, user_type, id_profile)
 VALUES
-('alice.johnson@example.com', 'hashed_password_1', 'COMMON', 1),
-('john.doe@example.com', 'hashed_password_2', 'ADMIN', 2);
+('gabriel.victor@example.com', 'hashed_password_1', 'ADMIN', 1),
+('pedro.lucas@example.com', 'hashed_password_2', 'ADMIN', 2);
 
 
 
@@ -45,49 +45,49 @@ VALUES
 ('Casual');       -- Categoria 10
 
 
-INSERT INTO "gh_game" (id_developer, no_name, dt_release)
+INSERT INTO "gh_game" (id_developer, no_name, dt_release, nu_rating, nu_total_evaluation)
 VALUES
     -- Naughty Dog
-    (1, 'The Last of Us', '2013-06-14'),
-    (1, 'Uncharted: Drakes Fortune', '2007-11-19'),
-    (1, 'Crash Bandicoot', '1996-08-31'),
-    (1, 'Jak and Daxter: The Precursor Legacy', '2001-12-03'),
-    (1, 'The Last of Us Part II', '2020-06-19'),
+    (1, 'The Last of Us', '2013-06-14', 0.0, 0),
+    (1, 'Uncharted: Drakes Fortune', '2007-11-19', 0.0, 0),
+    (1, 'Crash Bandicoot', '1996-08-31', 0.0, 0),
+    (1, 'Jak and Daxter: The Precursor Legacy', '2001-12-03', 0.0, 0),
+    (1, 'The Last of Us Part II', '2020-06-19', 0.0, 0),
 
     -- Rockstar Games
-    (2, 'Grand Theft Auto V', '2013-09-17'),
-    (2, 'Red Dead Redemption 2', '2018-10-26'),
-    (2, 'Bully', '2006-10-17'),
-    (2, 'Max Payne 3', '2012-05-15'),
-    (2, 'L.A. Noire', '2011-05-17'),
+    (2, 'Grand Theft Auto V', '2013-09-17', 0.0, 0),
+    (2, 'Red Dead Redemption 2', '2018-10-26', 0.0, 0),
+    (2, 'Bully', '2006-10-17', 0.0, 0),
+    (2, 'Max Payne 3', '2012-05-15', 0.0, 0),
+    (2, 'L.A. Noire', '2011-05-17', 0.0, 0),
 
     -- Ubisoft
-    (3, 'Assassins Creed Valhalla', '2020-11-10'),
-    (3, 'Far Cry 5', '2018-03-27'),
-    (3, 'Tom Clancys Rainbow Six Siege', '2015-12-01'),
-    (3, 'Watch Dogs', '2014-05-27'),
-    (3, 'The Division 2', '2019-03-15'),
+    (3, 'Assassins Creed Valhalla', '2020-11-10', 0.0, 0),
+    (3, 'Far Cry 5', '2018-03-27', 0.0, 0),
+    (3, 'Tom Clancys Rainbow Six Siege', '2015-12-01', 0.0, 0),
+    (3, 'Watch Dogs', '2014-05-27', 0.0, 0),
+    (3, 'The Division 2', '2019-03-15', 0.0, 0),
 
     -- CD Projekt Red
-    (4, 'The Witcher 3: Wild Hunt', '2015-05-19'),
-    (4, 'Cyberpunk 2077', '2020-12-10'),
-    (4, 'The Witcher 2: Assassins of Kings', '2011-05-17'),
-    (4, 'Gwent: The Witcher Card Game', '2017-05-24'),
-    (4, 'Thronebreaker: The Witcher Tales', '2018-10-23'),
+    (4, 'The Witcher 3: Wild Hunt', '2015-05-19', 0.0, 0),
+    (4, 'Cyberpunk 2077', '2020-12-10', 0.0, 0),
+    (4, 'The Witcher 2: Assassins of Kings', '2011-05-17', 0.0, 0),
+    (4, 'Gwent: The Witcher Card Game', '2017-05-24', 0.0, 0),
+    (4, 'Thronebreaker: The Witcher Tales', '2018-10-23', 0.0, 0),
 
     -- Bethesda Game Studios
-    (5, 'The Elder Scrolls V: Skyrim', '2011-11-11'),
-    (5, 'Fallout 4', '2015-11-10'),
-    (5, 'The Elder Scrolls IV: Oblivion', '2006-03-20'),
-    (5, 'Fallout 76', '2018-11-14'),
-    (5, 'The Elder Scrolls Online', '2014-04-04'),
+    (5, 'The Elder Scrolls V: Skyrim', '2011-11-11', 0.0, 0),
+    (5, 'Fallout 4', '2015-11-10', 0.0, 0),
+    (5, 'The Elder Scrolls IV: Oblivion', '2006-03-20', 0.0, 0),
+    (5, 'Fallout 76', '2018-11-14', 0.0, 0),
+    (5, 'The Elder Scrolls Online', '2014-04-04', 0.0, 0),
 
     -- Square Enix
-    (6, 'Final Fantasy XV', '2016-11-29'),
-    (6, 'Kingdom Hearts III', '2019-01-29'),
-    (6, 'Final Fantasy VII Remake', '2020-04-10'),
-    (6, 'Dragon Quest XI', '2017-07-29'),
-    (6, 'Tomb Raider', '2013-03-05');
+    (6, 'Final Fantasy XV', '2016-11-29', 0.0, 0),
+    (6, 'Kingdom Hearts III', '2019-01-29', 0.0, 0),
+    (6, 'Final Fantasy VII Remake', '2020-04-10', 0.0, 0),
+    (6, 'Dragon Quest XI', '2017-07-29', 0.0, 0),
+    (6, 'Tomb Raider', '2013-03-05', 0.0, 0);
 
 
 INSERT INTO "gh_store" (no_name, no_url)
@@ -181,3 +181,30 @@ VALUES
 (2,  8),
 (2, 15),
 (2, 23);
+
+INSERT INTO "gh_assessment" ("id_user", "id_game", "nu_rating", "ds_comment")
+VALUES
+    -- Avaliações para 'The Last of Us'
+    (1, 1, 5, 'Excelente jogo, uma obra-prima!'),
+    (2, 1, 4, 'Muito bom, mas poderia ser mais longo.'),
+
+    -- Avaliações para 'Grand Theft Auto V'
+    (1, 6, 10, 'Ótima jogabilidade e história incrível.'),
+    (2, 6, 4, 'Jogo sensacional, mas alguns bugs às vezes atrapalham.'),
+
+    -- Avaliações para 'Assassins Creed Valhalla'
+    (1, 11, 9, 'Uma das melhores da franquia, adorei a jogabilidade.'),
+    (2, 11, 4, 'Muito bom, mas poderia ter mais opções de personalização.'),
+
+    -- Avaliações para 'The Witcher 3: Wild Hunt'
+    (1, 16, 6, 'Um dos melhores RPGs de todos os tempos!'),
+    (2, 16, 4, 'Muito bom, mas os controles poderiam ser mais fluidos.'),
+
+    -- Avaliações para 'The Elder Scrolls V: Skyrim'
+    (1, 21, 2, 'O melhor RPG que já joguei, com muita liberdade!'),
+    (2, 21, 4, 'Muito bom, mas a história poderia ser mais interessante.'),
+
+    -- Avaliações para 'Final Fantasy XV'
+    (1, 26, 5, 'Maravilhoso! A história é envolvente e os gráficos são incríveis.'),
+    (2, 26, 4, 'Ótimo jogo, mas algumas missões secundárias são repetitivas.');
+

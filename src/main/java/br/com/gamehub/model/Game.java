@@ -1,13 +1,30 @@
 /**
  * Game
- * 
+ *
  * <p>
  * Represents a game in the system. This entity contains information about the
- * game, such as its name, release date,
- * associated developer, categories, platforms, and timestamps for creation and
- * update.
+ * game, such as its name, release date, associated developer, categories,
+ * platforms, ratings, and timestamps for creation and updates.
  * </p>
- * 
+ *
+ * <ul>
+ * <li><strong>id:</strong> Unique identifier for the game.</li>
+ * <li><strong>developer:</strong> The developer of the game, mapped to the {@link Developer} entity.</li>
+ * <li><strong>name:</strong> The name of the game, which cannot be null.</li>
+ * <li><strong>releaseDate:</strong> The release date of the game.</li>
+ * <li><strong>categories:</strong> A list of categories the game belongs to, mapped to the {@link Category} entity.</li>
+ * <li><strong>platforms:</strong> A list of platforms the game is available on, mapped to the {@link Platform} entity.</li>
+ * <li><strong>rating:</strong> The average rating of the game, defaulting to 0.0.</li>
+ * <li><strong>totalEvaluation:</strong> The total number of evaluations, defaulting to 0.</li>
+ * <li><strong>createdAt:</strong> The timestamp of when the game was created.</li>
+ * <li><strong>updatedAt:</strong> The timestamp of when the game was last updated.</li>
+ * </ul>
+ *
+ * <p>
+ * This entity uses JPA lifecycle hooks to automatically manage the
+ * {@code createdAt} and {@code updatedAt} timestamps.
+ * </p>
+ *
  * @author Pedro Lucas
  * @since 2025-01-23
  */
@@ -18,25 +35,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "GH_GAME")
@@ -83,7 +83,9 @@ public class Game {
      * with the {@link Category} entity.
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "GH_GAME_CATEGORY", joinColumns = @JoinColumn(name = "id_game"), inverseJoinColumns = @JoinColumn(name = "id_category"))
+    @JoinTable(name = "GH_GAME_CATEGORY",
+            joinColumns = @JoinColumn(name = "id_game"),
+            inverseJoinColumns = @JoinColumn(name = "id_category"))
     private List<Category> categories;
 
     /**
@@ -91,8 +93,22 @@ public class Game {
      * relationship with the {@link Platform} entity.
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "GH_GAME_PLATFORM", joinColumns = @JoinColumn(name = "id_game"), inverseJoinColumns = @JoinColumn(name = "id_platform"))
+    @JoinTable(name = "GH_GAME_PLATFORM",
+            joinColumns = @JoinColumn(name = "id_game"),
+            inverseJoinColumns = @JoinColumn(name = "id_platform"))
     private List<Platform> platforms;
+
+    /**
+     * The average rating of the game. Default value is 0.0.
+     */
+    @Column(name = "nu_rating")
+    private Double rating = 0.0;
+
+    /**
+     * The total number of evaluations for the game. Default value is 0.
+     */
+    @Column(name = "nu_total_evaluation", columnDefinition = "integer default 0")
+    private Integer totalEvaluation = 0;
 
     /**
      * The timestamp when the game was created. This value is automatically set by

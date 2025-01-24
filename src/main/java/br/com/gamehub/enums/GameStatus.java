@@ -21,9 +21,13 @@
  */
 package br.com.gamehub.enums;
 
+/**
+ * Enum representing the various statuses a game can have in the user's game collection.
+ * It helps track the current state of the game in terms of user interaction.
+ */
 public enum GameStatus {
-    NOT_PLAYED,
-    PLAYING,
-    FINISHED,
-    ON_PAUSE
+    NOT_PLAYED,  // The game has not been started yet by the user
+    PLAYING,     // The user is currently playing the game
+    FINISHED,    // The user has completed the game
+    ON_PAUSE     // The user has paused the game
 }
