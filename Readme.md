@@ -13,7 +13,7 @@
 📧 [pedrolucas.jsrn@gmail.com](mailto:pedrolucas.jsrn@gmail.com)
 ## Video Explanation
 
-You can watch the video explaining the project [here]().
+You can watch the video explaining the project [here](https://www.loom.com/share/6160688b2e14454c97d7e0ac83e59587?sid=f374ae8c-1dac-4679-8a16-d2f42350ac47).
 
 ## Project Overview
 
