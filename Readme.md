@@ -1,15 +1,32 @@
 # GameHub API 🎮
 
+**GameHub API** is an API designed to help players manage their digital game collections, compare prices across different stores, and track promotions.
 
-**GameHub API** is an API designed to help players manage their digital game collections, compare prices across different stores, and track promotions and price history.
+## Authors
+
+## Authors
+
+### Gabriel Victor da Silva
+📧 [g.victor.silva01@gmail.com](mailto:g.victor.silva01@gmail.com)
+
+### Pedro Lucas Medeiros do Nascimento
+📧 [pedrolucas.jsrn@gmail.com](mailto:pedrolucas.jsrn@gmail.com)
+## Video Explanation
+
+You can watch the video explaining the project [here]().
+
+## Project Overview
+
+The GameHub API was developed to help users manage their game collections and make smarter purchasing decisions. It allows users to organize games into purchased and wish-listed categories, track price histories, and compare prices from various online stores. The API also calculates the lowest price for each game and provides useful analytics, such as filtering completed games by category or publisher.
+
+This solution centralizes game data, making it easier for users to track their collections and compare offers from different stores in real time.
 
 ## Features
 
-- 🎮 **Manage your game collection**: Organize your purchased and wish listed games.
+- 🎮 **Manage your game collection**: Organize your purchased and wish-listed games.
 - 🏷️ **Compare prices**: Real-time price comparison across different digital stores.
 - 📉 **Track price history**: See the lowest recorded price of any game.
 - 📊 **Customizable analytics**: Filter completed games by category or publisher.
-
 
 ## Technologies Used
 
@@ -27,5 +44,3 @@
 - Java 17 or higher
 - Maven or Gradle
 - IDE (such as IntelliJ, Eclipse)
-
-
