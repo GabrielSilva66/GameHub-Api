@@ -1,3 +1,23 @@
+CREATE OR REPLACE FUNCTION update_game_rating()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE gh_game
+    SET
+        nu_rating = (SELECT COALESCE(AVG(a.nu_rating), 0) FROM gh_assessment a WHERE a.id_game = NEW.id_game),
+        nu_total_evaluation = (SELECT COUNT(*) FROM gh_assessment a WHERE a.id_game = NEW.id_game)
+    WHERE id_game = NEW.id_game;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Criação do gatilho
+CREATE TRIGGER assessment_insert_update
+AFTER INSERT OR UPDATE ON gh_assessment
+FOR EACH ROW
+EXECUTE FUNCTION update_game_rating();
+
 
 INSERT INTO GH_PROFILE (no_name, dt_birth_date, gender)
 VALUES
@@ -185,26 +205,27 @@ VALUES
 INSERT INTO "gh_assessment" ("id_user", "id_game", "nu_rating", "ds_comment")
 VALUES
     -- Avaliações para 'The Last of Us'
-    (1, 1, 5, 'Excelente jogo, uma obra-prima!'),
-    (2, 1, 4, 'Muito bom, mas poderia ser mais longo.'),
+    (1, 1, 9, 'Excelente jogo, uma obra-prima!'),
+    (2, 1, 6, 'Muito bom, mas poderia ser mais longo.'),
 
     -- Avaliações para 'Grand Theft Auto V'
     (1, 6, 10, 'Ótima jogabilidade e história incrível.'),
-    (2, 6, 4, 'Jogo sensacional, mas alguns bugs às vezes atrapalham.'),
+    (2, 6, 9, 'Jogo sensacional, mas alguns bugs às vezes atrapalham.'),
 
     -- Avaliações para 'Assassins Creed Valhalla'
-    (1, 11, 9, 'Uma das melhores da franquia, adorei a jogabilidade.'),
+    (1, 11, 8, 'Uma das melhores da franquia, adorei a jogabilidade.'),
     (2, 11, 4, 'Muito bom, mas poderia ter mais opções de personalização.'),
 
     -- Avaliações para 'The Witcher 3: Wild Hunt'
-    (1, 16, 6, 'Um dos melhores RPGs de todos os tempos!'),
-    (2, 16, 4, 'Muito bom, mas os controles poderiam ser mais fluidos.'),
+    (1, 16, 10, 'Um dos melhores RPGs de todos os tempos!'),
+    (2, 16, 8, 'Muito bom, mas os controles poderiam ser mais fluidos.'),
 
     -- Avaliações para 'The Elder Scrolls V: Skyrim'
-    (1, 21, 2, 'O melhor RPG que já joguei, com muita liberdade!'),
-    (2, 21, 4, 'Muito bom, mas a história poderia ser mais interessante.'),
+    (1, 21, 10, 'O melhor RPG que já joguei, com muita liberdade!'),
+    (2, 21, 9, 'Muito bom, mas a história poderia ser mais interessante.'),
 
     -- Avaliações para 'Final Fantasy XV'
-    (1, 26, 5, 'Maravilhoso! A história é envolvente e os gráficos são incríveis.'),
-    (2, 26, 4, 'Ótimo jogo, mas algumas missões secundárias são repetitivas.');
+    (1, 26, 8, 'Maravilhoso! A história é envolvente e os gráficos são incríveis.'),
+    (2, 26, 7, 'Ótimo jogo, mas algumas missões secundárias são repetitivas.');
+
 

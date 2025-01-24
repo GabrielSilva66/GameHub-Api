@@ -51,28 +51,22 @@ public class AssessmentService {
      * @throws EntityNotFoundException if the user or game is not found.
      */
     public AssessmentResponseDTO createAssessment(Long userId, Long gameId, AssessmentRequestDTO requestDTO) {
-        // Verifica se o usuário e o jogo existem
         User user = findUserById(userId);
         Game game = findGameById(gameId);
 
-        // Verifica se o usuário já avaliou o jogo
         assessmentRepository.findByUserIdAndGameId(userId, gameId).ifPresent(assessment -> {
             throw new IllegalArgumentException("User with id " + userId + " has already assessed the game with id " + gameId);
         });
 
-        // Atualiza a avaliação do jogo de forma ponderada
         int newTotalEvaluation = game.getTotalEvaluation() + 1;
         double newRating = (game.getRating() * game.getTotalEvaluation() + requestDTO.rating()) / newTotalEvaluation;
 
         game.setRating(newRating);
         game.setTotalEvaluation(newTotalEvaluation);
 
-        // Mapeia o DTO para a entidade e salva no banco
         Assessment assessment = AssessmentMapper.toEntity(requestDTO, user, game);
         Assessment savedAssessment = assessmentRepository.save(assessment);
 
-        System.out.println("comentario.............................. " + assessment.getComment());
-        // Retorna o DTO de resposta
         return AssessmentMapper.toResponse(savedAssessment);
     }
 
@@ -125,21 +119,17 @@ public class AssessmentService {
      * @throws IllegalArgumentException if the user has not assessed the game yet.
      */
     public AssessmentResponseDTO updateAssessment(Long userId, Long gameId, AssessmentRequestDTO requestDTO) {
-        // Verifica se o usuário e o jogo existem
         Game game = findGameById(gameId);
 
-        // Verifica se o usuário ainda não avaliou o jogo
         Assessment existingAssessment = assessmentRepository.findByUserIdAndGameId(userId, gameId).orElseThrow(() ->
                 new IllegalArgumentException("User with id " + userId + " has not assessed the game with id " + gameId)
         );
 
-        // Ajusta a avaliação do jogo para remover a contribuição da avaliação antiga
         double totalEvaluation = game.getTotalEvaluation();
         double newRating = ((game.getRating() * totalEvaluation) - existingAssessment.getRating() + requestDTO.rating()) / totalEvaluation;
 
         game.setRating(newRating);
 
-        // Atualiza a avaliação existente com os novos dados
         existingAssessment.setRating(requestDTO.rating());
         existingAssessment.setComment(requestDTO.comment());
 
